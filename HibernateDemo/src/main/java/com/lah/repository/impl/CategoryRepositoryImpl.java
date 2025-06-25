@@ -6,6 +6,9 @@ package com.lah.repository.impl;
 import com.lah.hibernatedemo.HibernateUtils;
 import com.lah.pojo.Category;
 import jakarta.persistence.Query;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import java.util.List;
 import org.hibernate.Session;
 /**
@@ -15,8 +18,16 @@ import org.hibernate.Session;
 public class CategoryRepositoryImpl {
     public List<Category> getCates() {
         try (Session s = HibernateUtils.getFactory().openSession()) {
-            Query q = s.createQuery("FROM Category", Category.class);
-            return q.getResultList();
+//            Query q = s.createQuery("FROM Category", Category.class);
+//            return q.getResultList();
+
+                CriteriaBuilder cb = s.getCriteriaBuilder();
+                CriteriaQuery<Category> q = cb.createQuery(Category.class);
+                Root root = q.from(Category.class);
+                q.select(root);
+                
+                Query query = s.createQuery(q);
+                return query.getResultList();
         }
     }
 }
