@@ -18,9 +18,6 @@ import org.hibernate.Session;
 public class CategoryRepositoryImpl {
     public List<Category> getCates() {
         try (Session s = HibernateUtils.getFactory().openSession()) {
-//            Query q = s.createQuery("FROM Category", Category.class);
-//            return q.getResultList();
-
                 CriteriaBuilder cb = s.getCriteriaBuilder();
                 CriteriaQuery<Category> q = cb.createQuery(Category.class);
                 Root root = q.from(Category.class);
